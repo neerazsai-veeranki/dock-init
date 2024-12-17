@@ -66,7 +66,7 @@ const Header = () => {
         <Button 
           color="inherit" 
           startIcon={<Chat />}
-          onClick={() => window.open('https://github.com/yourusername/dock-init/issues', '_blank')}
+          onClick={() => window.open('https://www.linkedin.com/in/neerazsai-veeranki/', '_blank')}
         >
           Talk To Me
         </Button>
