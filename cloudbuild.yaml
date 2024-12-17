@@ -3,22 +3,22 @@ options:
 
 steps:
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', '$REGION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/dock-init', '.']
+    args: ['build', '-t', '${_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY}/dock-init', '.']
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', '$REGION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/dock-init']
+    args: ['push', '${_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY}/dock-init']
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     args:
     - 'run'
     - 'deploy'
     - 'dock-init'
     - '--image'
-    - '$REGION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/dock-init'
+    - '${_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY}/dock-init'
     - '--region'
-    - '$REGION'
+    - '${_LOCATION}'
     - '--platform'
     - 'managed'
     - '--allow-unauthenticated'
 
-# # Specify the region where you want the build to run
-# substitutions:
-#   _REGION: 'us-central1'  # Change this to your preferred region
+substitutions:
+  _LOCATION: 'global'
+  _REPOSITORY: 'dock-init'
