@@ -1,26 +1,34 @@
+# Specify global options for the build
 options:
+  # Use Cloud Logging instead of Cloud Storage for logs
   logging: CLOUD_LOGGING_ONLY
 
+# Define the sequence of build steps
 steps:
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'gcr.io/dock-init/dock-init', '.']
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'gcr.io/dock-init/dock-init']
-  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    entrypoint: 'gcloud'
+  # Step 1: Build the Docker image
+  - name: 'gcr.io/cloud-builders/docker'  # Use Google's Docker builder image
+    args: ['build', '-t', 'gcr.io/dock-init/dock-init', '.']  # Build and tag the image
+  
+  # Step 2: Push the built image to Container Registry
+  - name: 'gcr.io/cloud-builders/docker'  # Use Docker builder again
+    args: ['push', 'gcr.io/dock-init/dock-init']  # Push to GCR
+  
+  # Step 3: Deploy to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'  # Use Cloud SDK for deployment
+    entrypoint: 'gcloud'  # Use gcloud command
     args:
-    - 'run'
-    - 'deploy'
-    - 'dock-init'
-    - '--image'
-    - 'gcr.io/dock-init/dock-init'
-    - '--region'
-    - 'us-central1'
-    - '--platform'
-    - 'managed'
-    - '--allow-unauthenticated'
-    - '--no-cpu-throttling'
-    - '--min-instances=1'
-    - '--port=8080'
-    - '--set-env-vars=PORT=8080'
+    - 'run'  # Cloud Run service
+    - 'deploy'  # Deploy command
+    - 'dock-init'  # Service name
+    - '--image'  # Specify the image to deploy
+    - 'gcr.io/dock-init/dock-init'  # Image location in GCR
+    - '--region'  # Specify region
+    - 'us-central1'  # Region name
+    - '--platform'  # Specify platform
+    - 'managed'  # Use fully managed platform
+    - '--allow-unauthenticated'  # Allow public access
+    - '--no-cpu-throttling'  # Prevent CPU throttling
+    - '--min-instances=1'  # Keep at least one instance running
+    - '--port=8080'  # Container port to expose
+    - '--set-env-vars=PORT=8080'  # Set environment variables
 

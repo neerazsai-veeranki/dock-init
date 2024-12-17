@@ -1,5 +1,6 @@
+# Define IAM policy bindings
 bindings:
-- members:
-  - allUsers
-  role: roles/run.invoker
-version: 1 
+- members:  # List of members to grant access
+  - allUsers  # Grant access to all users (public access)
+  role: roles/run.invoker  # Role that allows invoking the Cloud Run service
+version: 1  # IAM policy version 

@@ -1,4 +1,18 @@
+# Dependencies
 node_modules
 npm-debug.log
+
+# Source control
 .git
+.gitignore
+
+# Environment files
 .env
+.env.local
+.env.*.local
+
+# Development files
+README.md
+*.md
+.dockerignore
+Dockerfile
