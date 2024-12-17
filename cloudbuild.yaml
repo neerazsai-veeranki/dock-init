@@ -21,5 +21,6 @@ steps:
     - '--allow-unauthenticated'
     - '--no-cpu-throttling'
     - '--min-instances=1'
-    - '--port=3000'
+    - '--port=8080'
+    - '--set-env-vars=PORT=8080'
 
