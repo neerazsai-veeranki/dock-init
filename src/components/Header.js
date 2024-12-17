@@ -11,6 +11,14 @@ import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
   const navigate = useNavigate();
+  
+  // Define the LinkedIn URL as a constant to prevent any accidental changes
+  const LINKEDIN_URL = 'https://www.linkedin.com/in/neerazsai-veeranki/';
+
+  const handleTalkToMe = (e) => {
+    e.preventDefault(); // Prevent any default behavior
+    window.open(LINKEDIN_URL, '_blank', 'noopener,noreferrer');
+  };
 
   return (
     <AppBar 
@@ -66,7 +74,11 @@ const Header = () => {
         <Button 
           color="inherit" 
           startIcon={<Chat />}
-          onClick={() => window.open('https://www.linkedin.com/in/neerazsai-veeranki/', '_blank')}
+          onClick={handleTalkToMe}  // Using the new handler function
+          component="a"
+          href={LINKEDIN_URL}  // Adding href for better accessibility
+          target="_blank"
+          rel="noopener noreferrer"
         >
           Talk To Me
         </Button>
