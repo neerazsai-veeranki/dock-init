@@ -15,11 +15,10 @@ steps:
     - '--image'
     - 'gcr.io/${PROJECT_ID}/dock-init'
     - '--region'
-    - 'global'
+    - 'us-central1'
     - '--platform'
     - 'managed'
     - '--allow-unauthenticated'
+    - '--service-account'
+    - '${PROJECT_ID}@appspot.gserviceaccount.com'
 
-substitutions:
-  _LOCATION: 'global'
-  _REPOSITORY: 'dock-init'
