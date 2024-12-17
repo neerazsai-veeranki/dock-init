@@ -3,18 +3,18 @@ options:
 
 steps:
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', '${_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY}/dock-init', '.']
+    args: ['build', '-t', 'gcr.io/${PROJECT_ID}/dock-init', '.']
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', '${_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY}/dock-init']
+    args: ['push', 'gcr.io/${PROJECT_ID}/dock-init']
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     args:
     - 'run'
     - 'deploy'
     - 'dock-init'
     - '--image'
-    - '${_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY}/dock-init'
+    - 'gcr.io/${PROJECT_ID}/dock-init'
     - '--region'
-    - '${_LOCATION}'
+    - 'global'
     - '--platform'
     - 'managed'
     - '--allow-unauthenticated'
