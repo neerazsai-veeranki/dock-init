@@ -1,4 +1,7 @@
- steps:
+options:
+  logging: CLOUD_LOGGING_ONLY
+
+steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', '$REGION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/dock-init', '.']
   - name: 'gcr.io/cloud-builders/docker'
@@ -15,3 +18,7 @@
     - '--platform'
     - 'managed'
     - '--allow-unauthenticated'
+
+# Specify the region where you want the build to run
+substitutions:
+  _REGION: 'us-central1'  # Change this to your preferred region
