@@ -38,5 +38,5 @@ ENV NODE_ENV=production
 # Expose the port
 EXPOSE 8080
 
-# Start the server
-CMD ["node", "server.js"]
+# Start the server using npm start
+CMD ["npm", "start"]
