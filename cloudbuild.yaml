@@ -19,6 +19,6 @@ steps:
     - 'managed'
     - '--allow-unauthenticated'
 
-# Specify the region where you want the build to run
-substitutions:
-  _REGION: 'us-central1'  # Change this to your preferred region
+# # Specify the region where you want the build to run
+# substitutions:
+#   _REGION: 'us-central1'  # Change this to your preferred region
