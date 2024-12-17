@@ -1,23 +1,42 @@
-# Use Node.js slim image as base
-FROM node:18-slim
+# Build stage
+FROM node:18-slim as builder
 
-# Set working directory in container
+# Set working directory
 WORKDIR /app
 
-# Copy package files first (for better caching)
+# Copy package files
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install
+RUN npm ci
 
 # Copy the rest of the application code
 COPY . .
 
+# Build the application
+RUN npm run build
+
+# Production stage
+FROM node:18-slim
+
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+
+# Install production dependencies only
+RUN npm ci --only=production
+
+# Copy built files from builder stage
+COPY --from=builder /app/build ./build
+COPY server.js .
+
 # Set environment variable for port
 ENV PORT=8080
+ENV NODE_ENV=production
 
-# Inform Docker about the port the app will use
+# Expose the port
 EXPOSE 8080
 
-# Command to run the application
-CMD ["npm", "start"]
+# Start the server
+CMD ["node", "server.js"]

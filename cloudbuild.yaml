@@ -5,15 +5,34 @@ options:
 
 # Define the sequence of build steps
 steps:
-  # Step 1: Build the Docker image
-  - name: 'gcr.io/cloud-builders/docker'  # Use Google's Docker builder image
-    args: ['build', '-t', 'gcr.io/dock-init/dock-init', '.']  # Build and tag the image
+  # Step 1: Install dependencies
+  - name: node:18-slim
+    entrypoint: npm
+    args: ['ci']  # Use 'ci' instead of 'install' for cleaner, reproducible builds
   
-  # Step 2: Push the built image to Container Registry
+  # Step 2: Build the React application
+  - name: node:18-slim
+    entrypoint: npm
+    args: ['run', 'build']
+    env:
+      - 'CI=true'
+      - 'NODE_ENV=production'
+  
+  # Step 3: Build the Docker image
+  - name: 'gcr.io/cloud-builders/docker'  # Use Google's Docker builder image
+    args: 
+      - 'build'
+      - '-t'
+      - 'gcr.io/dock-init/dock-init'
+      - '--build-arg'
+      - 'NODE_ENV=production'
+      - '.'
+  
+  # Step 4: Push the built image to Container Registry
   - name: 'gcr.io/cloud-builders/docker'  # Use Docker builder again
     args: ['push', 'gcr.io/dock-init/dock-init']  # Push to GCR
   
-  # Step 3: Deploy to Cloud Run
+  # Step 5: Deploy to Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'  # Use Cloud SDK for deployment
     entrypoint: 'gcloud'  # Use gcloud command
     args:
@@ -30,5 +49,12 @@ steps:
     - '--no-cpu-throttling'  # Prevent CPU throttling
     - '--min-instances=1'  # Keep at least one instance running
     - '--port=8080'  # Container port to expose
-    - '--set-env-vars=PORT=8080'  # Set environment variables
+    - '--set-env-vars=PORT=8080,NODE_ENV=production'  # Set environment variables
+
+# Set timeout for the entire build
+timeout: '1800s'  # 30 minutes
+
+# Configure the available memory for the build
+options:
+  machineType: 'N1_HIGHCPU_8'
 
