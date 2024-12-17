@@ -22,16 +22,4 @@ steps:
     - '--no-cpu-throttling'
     - '--min-instances=1'
     - '--port=3000'
-  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    entrypoint: 'gcloud'
-    args:
-    - 'run'
-    - 'services'
-    - 'add-iam-policy-binding'
-    - 'dock-init'
-    - '--region=us-central1'
-    - '--member=allUsers'
-    - '--role=roles/run.invoker'
-
-serviceAccount: 'projects/dock-init/serviceAccounts/dock-init@cloudbuild.gserviceaccount.com'
 
