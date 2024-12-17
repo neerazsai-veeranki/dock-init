@@ -1,7 +1,7 @@
 # Specify global options for the build
 options:
-  # Use Cloud Logging instead of Cloud Storage for logs
-  logging: CLOUD_LOGGING_ONLY
+  logging: CLOUD_LOGGING_ONLY  # Use Cloud Logging instead of Cloud Storage for logs
+  machineType: 'N1_HIGHCPU_8'  # Configure the available memory for the build
 
 # Define the sequence of build steps
 steps:
@@ -53,8 +53,4 @@ steps:
 
 # Set timeout for the entire build
 timeout: '1800s'  # 30 minutes
-
-# Configure the available memory for the build
-options:
-  machineType: 'N1_HIGHCPU_8'
 
